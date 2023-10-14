@@ -6,6 +6,12 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.HashMap;
+
+
 public class StudentSystem {
 
 
@@ -28,17 +34,37 @@ public class StudentSystem {
         }
     }
 
-    private ArrayList<Students> students = new ArrayList<>();
+    
+    private static final long serialVersionUID = 1L;
+    // private Map<String, Students> students = new HashMap<>();
+    Map<String, Students> students = new HashMap<>();
+    private Random random = new Random();
 
+    private String generateID() {
+        int id = random.nextInt(999999) + 1;
+        return String.format("%06d", id);
+    }
+    
     public void register(String email, String password) {
         if (email.matches(Utils.EMAIL_REGEX) && password.matches(Utils.PASSWORD_REGEX)) {
-            students.add(new Students(email, password));
+
+            String id ;
+            do {
+                id = generateID();
+            } while (students.containsKey(id)); 
+            // students.put(new Students(studentId, email, password));
+            Students student = new Students(id, email, password);
+            // students.put(id, student);
+            students.put(email, student);
             saveToFile();
+            // System.out.println(students);
             System.out.println("Registration successful.");
         } else {
             System.out.println("Invalid email or password format.");
         }
     }
+
+    
 
     private void saveToFile() {
         try {
@@ -64,29 +90,62 @@ public class StudentSystem {
     public void loadFromFile() {
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream("students.data"));
-            students = (ArrayList<Students>) in.readObject();
+            students = (Map<String, Students>) in.readObject();
             in.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
+    
+    // Log in by student Email
+    
+    // public boolean login(String email, String password) {
+    //     for (Students student : students) {
+    //         // System.out.println(student);
+    //         if (student.getEmail().equals(email) && student.getPassword().equals(password)) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
+    
+    // Log in by student ID
+    
+    // public boolean login(String id, String password) {
+    //     Student student = students.get(id);
+    //     return student != null && student.getPassword().equals(password);
+    // }
 
     public boolean login(String email, String password) {
-        for (Students student : students) {
-            System.out.println(student);
-            if (student.getEmail().equals(email) && student.getPassword().equals(password)) {
-                return true;
-            }
-        }
-        return false;
+        Students student = students.get(email);
+        return student != null && student.getPassword().equals(password);
     }
 
+    public void printAllData() {
+        for (Students student : students.values()) {
+            System.out.println(student);
+        }
+    }
+    
     public void StudentLogin(){
 
         StudentSystem system = new StudentSystem();
+        system.loadFromFile();
+        
+        System.out.print("Enter Your University Email to Login: ");
+        Scanner studentEmailInput = new Scanner(System.in);
+        String studentEmail = studentEmailInput.nextLine();
 
+        System.out.print("Enter Your Password: ");
+        Scanner studentPasswordInput = new Scanner(System.in);
+        String studentPassword = studentPasswordInput.nextLine();
+        
+        boolean loggedIn = system.login(studentEmail, studentPassword);
+        System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
+        
         // Try to login with correct credentials
-        boolean loggedIn = system.login("john.doe@university.com", "Abcdef123");
+        loggedIn = system.login("john.doe@university.com", "Abcdef123");
         System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
 
         // Try to login with incorrect password
@@ -102,8 +161,25 @@ public class StudentSystem {
 
         system.loadFromFile();
 
+        System.out.print("Enter Your University Email to Register: ");
+        Scanner studentEmailInput = new Scanner(System.in);
+        String studentEmail = studentEmailInput.nextLine();
+
+        System.out.print("Enter Your Password: ");
+        Scanner studentPasswordInput = new Scanner(System.in);
+        String studentPassword = studentPasswordInput.nextLine();
+
+        
+        // Register a new student
+        system.register(studentEmail, studentPassword);
+
+        system.register("abc.def@university.com", "Abcdef123");
+
         // Register a new student
         system.register("john.doe@university.com", "Abcdef123");
+
+        // Register a new student
+        system.register("aaaaa.doe@university.com", "Abcdef123");
 
         // Try to register with an invalid email format
         system.register("invalid.email", "Abcdef123");

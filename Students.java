@@ -1,20 +1,20 @@
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
-
-public class Students implements Serializable{    
+class Students implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private String id;
     private String email;
     private String password;
 
-    public Students(String email, String password) {
+    public Students(String id, String email, String password) {
+        this.id = id;
         this.email = email;
         this.password = password;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getEmail() {
@@ -25,10 +25,8 @@ public class Students implements Serializable{
         return password;
     }
 
-    public void Name(){
-        System.out.println("SHANT");
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Email: " + email + ", Password: " + password;
     }
 }
-
-
-
