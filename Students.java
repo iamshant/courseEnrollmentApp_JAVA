@@ -25,9 +25,9 @@ class Students implements Serializable {
         return password;
     }
 
-    public String setPassword() {
-        return password;
-    }
+    public void setPassword(String newPassword) {
+        this.password = newPassword;
+    }   
 
     @Override
     public String toString() {

@@ -168,22 +168,25 @@ public class StudentSystem {
             String reNewPassword = userInput2.nextLine();
             System.out.println(reNewPassword);
 
-            if (newPassword.equals(reNewPassword) && password.matches(Utils.PASSWORD_REGEX)) {
-                // Students student1 = new Students(id, email, password);
-            // students.put(id, student);
-                students.put(email, student);
-                System.out.println("Password Updated");
-                saveToFile();
+            if (newPassword.matches(Utils.PASSWORD_REGEX)) {
+                if (newPassword.equals(reNewPassword)){
+                    // Students student1 = new Students(id, email, password);
+                    // students.put(id, student);
+                    // students.put(email, student);
+                    student.setPassword(newPassword);
+                    System.out.println("Password Updated");
+                    saveToFile();
+                } else {
+                    System.out.println("Both new passwords didn't match.");
+                }  
+
             } else {
-                System.out.println("Both new passwords didn't match.");
-
-            }
-
-        } else {
+                System.out.println("Password Format is Wrong!!!!!");
+            } 
+        }   else {
             System.out.println("Wrong Previous Password.");
         }
-    }
-    
+    } 
 
     public void StudentLogin(){
 
@@ -201,17 +204,17 @@ public class StudentSystem {
         boolean loggedIn = system.login(studentEmail, studentPassword);
         System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
         
-        // Try to login with correct credentials
-        loggedIn = system.login("john.doe@university.com", "Abcdef123");
-        System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
+        // // Try to login with correct credentials
+        // loggedIn = system.login("john.doe@university.com", "Abcdef123");
+        // System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
 
-        // Try to login with incorrect password
-        loggedIn = system.login("john.doe@university.com", "WrongPassword");
-        System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
+        // // Try to login with incorrect password
+        // loggedIn = system.login("john.doe@university.com", "WrongPassword");
+        // System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
 
-        // Try to login with non-existent email
-        loggedIn = system.login("nonexistent.email@university.com", "SomePassword");
-        System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
+        // // Try to login with non-existent email
+        // loggedIn = system.login("nonexistent.email@university.com", "SomePassword");
+        // System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
     }
 
 
@@ -232,19 +235,19 @@ public class StudentSystem {
         // Register a new student
         system.register(studentEmail, studentPassword);
 
-        system.register("abc.def@university.com", "Abcdef123");
+        // system.register("abc.def@university.com", "Abcdef123");
 
-        // Register a new student
-        system.register("john.doe@university.com", "Abcdef123");
+        // // Register a new student
+        // system.register("john.doe@university.com", "Abcdef123");
 
-        // Register a new student
-        system.register("aaaaa.doe@university.com", "Abcdef123");
+        // // Register a new student
+        // system.register("aaaaa.doe@university.com", "Abcdef123");
 
-        // Try to register with an invalid email format
-        system.register("invalid.email", "Abcdef123");
+        // // Try to register with an invalid email format
+        // system.register("invalid.email", "Abcdef123");
 
-        // Try to register with an invalid password format
-        system.register("jane.doe@university.com", "invalidpassword");
+        // // Try to register with an invalid password format
+        // system.register("jane.doe@university.com", "invalidpassword");
 
         
     }
