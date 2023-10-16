@@ -25,6 +25,10 @@ class Students implements Serializable {
         return password;
     }
 
+    public String setPassword() {
+        return password;
+    }
+
     @Override
     public String toString() {
         return "ID: " + id + ", Email: " + email + ", Password: " + password;

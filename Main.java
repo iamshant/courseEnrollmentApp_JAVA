@@ -8,7 +8,7 @@ public class Main {
     System.out.print("University System: (A)dmin, (S)tudent, or e(X)it : ");
     Scanner userInput = new Scanner(System.in);
     String chooseSystem = userInput.nextLine();
-
+    // Students student = new Students(chooseSystem, chooseSystem, chooseSystem)
     switch (chooseSystem) {
       // case "S", "Student":
       case "S":

@@ -116,9 +116,25 @@ public class StudentSystem {
     //     Student student = students.get(id);
     //     return student != null && student.getPassword().equals(password);
     // }
+    
 
+    // ToDo: Anyone can get the data from here. It's a concern
     public boolean login(String email, String password) {
         Students student = students.get(email);
+
+        System.out.print("Student Course System: Password (C)hange, (E)nroll in a Subject, (R)emove a subject, or e(X)it : ");
+            Scanner userInput1 = new Scanner(System.in);
+            String chooseStudentCourseMenu = userInput1.nextLine();
+            switch (chooseStudentCourseMenu) {
+                case "C":
+                    // changePassword("abc.def@university.com");
+                    changePassword(email);
+                    break;
+            
+                default:
+                    break;
+            }
+
         return student != null && student.getPassword().equals(password);
     }
 
@@ -127,7 +143,48 @@ public class StudentSystem {
             System.out.println(student);
         }
     }
+
+
+    public void changePassword(String email){
+        
+        System.out.println("Type your previous password: ");
+        StudentSystem system = new StudentSystem();
+        system.loadFromFile();
+        Students student = students.get(email);
+        String password = student.getPassword();
+        // String email = student.getEmail();
+        String id = student.getId();
+        Scanner userInput = new Scanner(System.in);
+        String previousPassword = userInput.nextLine();
+
+        if (student.getPassword().equals(previousPassword)) {
+            System.out.println("Type your New password: ");
+            Scanner userInput1 = new Scanner(System.in);
+            String newPassword = userInput1.nextLine();
+            System.out.println(newPassword);
+
+            System.out.println("Re Type your New password: ");
+            Scanner userInput2 = new Scanner(System.in);
+            String reNewPassword = userInput2.nextLine();
+            System.out.println(reNewPassword);
+
+            if (newPassword.equals(reNewPassword) && password.matches(Utils.PASSWORD_REGEX)) {
+                // Students student1 = new Students(id, email, password);
+            // students.put(id, student);
+                students.put(email, student);
+                System.out.println("Password Updated");
+                saveToFile();
+            } else {
+                System.out.println("Both new passwords didn't match.");
+
+            }
+
+        } else {
+            System.out.println("Wrong Previous Password.");
+        }
+    }
     
+
     public void StudentLogin(){
 
         StudentSystem system = new StudentSystem();
@@ -156,6 +213,8 @@ public class StudentSystem {
         loggedIn = system.login("nonexistent.email@university.com", "SomePassword");
         System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
     }
+
+
     public void StudentRegister(){
         StudentSystem system = new StudentSystem();
 
