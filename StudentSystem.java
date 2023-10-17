@@ -11,30 +11,27 @@ import java.util.Map;
 import java.util.Random;
 import java.util.HashMap;
 
-
 public class StudentSystem {
 
-
-    public void studentMenu(){
+    public void studentMenu() {
         System.out.print("Student System: (L)ogin, (R)egister, or e(X)it : ");
         Scanner userInput = new Scanner(System.in);
         String chooseStudentMenu = userInput.nextLine();
 
         switch (chooseStudentMenu) {
-        // case "L", "Login":
-        case "L":
-            StudentLogin();
-            break;
-        // case "A", "Register":
-        case "R":
-            StudentRegister();
-            break;
-        default:
-            break;
+            // case "L", "Login":
+            case "L":
+                StudentLogin();
+                break;
+            // case "A", "Register":
+            case "R":
+                StudentRegister();
+                break;
+            default:
+                break;
         }
     }
 
-    
     private static final long serialVersionUID = 1L;
     // private Map<String, Students> students = new HashMap<>();
     Map<String, Students> students = new HashMap<>();
@@ -44,14 +41,14 @@ public class StudentSystem {
         int id = random.nextInt(999999) + 1;
         return String.format("%06d", id);
     }
-    
+
     public void register(String email, String password) {
         if (email.matches(Utils.EMAIL_REGEX) && password.matches(Utils.PASSWORD_REGEX)) {
 
-            String id ;
+            String id;
             do {
                 id = generateID();
-            } while (students.containsKey(id)); 
+            } while (students.containsKey(id));
             // students.put(new Students(studentId, email, password));
             Students student = new Students(id, email, password);
             // students.put(id, student);
@@ -63,8 +60,6 @@ public class StudentSystem {
             System.out.println("Invalid email or password format.");
         }
     }
-
-    
 
     private void saveToFile() {
         try {
@@ -96,45 +91,34 @@ public class StudentSystem {
             e.printStackTrace();
         }
     }
-    
+
     // Log in by student Email
-    
+
     // public boolean login(String email, String password) {
-    //     for (Students student : students) {
-    //         // System.out.println(student);
-    //         if (student.getEmail().equals(email) && student.getPassword().equals(password)) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
+    // for (Students student : students) {
+    // // System.out.println(student);
+    // if (student.getEmail().equals(email) &&
+    // student.getPassword().equals(password)) {
+    // return true;
+    // }
+    // }
+    // return false;
     // }
 
-    
     // Log in by student ID
-    
+
     // public boolean login(String id, String password) {
-    //     Student student = students.get(id);
-    //     return student != null && student.getPassword().equals(password);
+    // Student student = students.get(id);
+    // return student != null && student.getPassword().equals(password);
     // }
-    
 
     // ToDo: Anyone can get the data from here. It's a concern
+
     public boolean login(String email, String password) {
         Students student = students.get(email);
-
-        System.out.print("Student Course System: Password (C)hange, (E)nroll in a Subject, (R)emove a subject, or e(X)it : ");
-            Scanner userInput1 = new Scanner(System.in);
-            String chooseStudentCourseMenu = userInput1.nextLine();
-            switch (chooseStudentCourseMenu) {
-                case "C":
-                    // changePassword("abc.def@university.com");
-                    changePassword(email);
-                    break;
-            
-                default:
-                    break;
-            }
-
+        StudentCourseSystem studentCourseSystem = new StudentCourseSystem();
+        studentCourseSystem.studentCourseMenu();
+        studentCourseSystem.changePassword(email);
         return student != null && student.getPassword().equals(password);
     }
 
@@ -144,9 +128,8 @@ public class StudentSystem {
         }
     }
 
+    public void changePassword(String email) {
 
-    public void changePassword(String email){
-        
         System.out.println("Type your previous password: ");
         StudentSystem system = new StudentSystem();
         system.loadFromFile();
@@ -168,31 +151,31 @@ public class StudentSystem {
             String reNewPassword = userInput2.nextLine();
             System.out.println(reNewPassword);
 
-            if (newPassword.matches(Utils.PASSWORD_REGEX)) {
-                if (newPassword.equals(reNewPassword)){
-                    // Students student1 = new Students(id, email, password);
-                    // students.put(id, student);
-                    // students.put(email, student);
-                    student.setPassword(newPassword);
-                    System.out.println("Password Updated");
-                    saveToFile();
-                } else {
-                    System.out.println("Both new passwords didn't match.");
-                }  
-
+            if (newPassword.equals(reNewPassword) && password.matches(Utils.PASSWORD_REGEX)) {
+                // Students student1 = new Students(id, email, password);
+                // students.put(id, student);
+                // students.put(email, student);
+                student.setPassword(newPassword);
+                System.out.println("Password Updated");
+                saveToFile();
+                System.out.println("Stdent After changing password:");
+                System.out.println(student);
             } else {
-                System.out.println("Password Format is Wrong!!!!!");
-            } 
-        }   else {
+                System.out.println("Both new passwords didn't match.");
+
+            }
+
+        } else {
             System.out.println("Wrong Previous Password.");
         }
-    } 
+    }
+    
 
-    public void StudentLogin(){
+    public void StudentLogin() {
 
         StudentSystem system = new StudentSystem();
         system.loadFromFile();
-        
+
         System.out.print("Enter Your University Email to Login: ");
         Scanner studentEmailInput = new Scanner(System.in);
         String studentEmail = studentEmailInput.nextLine();
@@ -200,13 +183,13 @@ public class StudentSystem {
         System.out.print("Enter Your Password: ");
         Scanner studentPasswordInput = new Scanner(System.in);
         String studentPassword = studentPasswordInput.nextLine();
-        
+
         boolean loggedIn = system.login(studentEmail, studentPassword);
         System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
-        
-        // // Try to login with correct credentials
-        // loggedIn = system.login("john.doe@university.com", "Abcdef123");
-        // System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
+
+        // Try to login with correct credentials
+        loggedIn = system.login("john.doe@university.com", "Abcdef123");
+        System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
 
         // // Try to login with incorrect password
         // loggedIn = system.login("john.doe@university.com", "WrongPassword");
@@ -217,8 +200,7 @@ public class StudentSystem {
         // System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
     }
 
-
-    public void StudentRegister(){
+    public void StudentRegister() {
         StudentSystem system = new StudentSystem();
 
         system.loadFromFile();
@@ -231,7 +213,6 @@ public class StudentSystem {
         Scanner studentPasswordInput = new Scanner(System.in);
         String studentPassword = studentPasswordInput.nextLine();
 
-        
         // Register a new student
         system.register(studentEmail, studentPassword);
 
@@ -249,6 +230,5 @@ public class StudentSystem {
         // // Try to register with an invalid password format
         // system.register("jane.doe@university.com", "invalidpassword");
 
-        
     }
 }
