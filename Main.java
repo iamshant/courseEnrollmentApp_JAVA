@@ -1,6 +1,4 @@
 import java.util.Scanner;
-import java.util.regex.Pattern;
-// import Students.StudentSystem;
 
 public class Main {
   public static void main(String a[]) {
@@ -32,6 +30,9 @@ public class Main {
       Utils utils = new Utils();
       utils.printAllData();
 
+      System.out.println("Course/n");
+
+    
 
   // System.out.println(Utils.EMAIL_REGEX);
   

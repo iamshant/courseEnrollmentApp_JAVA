@@ -3,13 +3,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.HashMap;
+import java.util.Scanner;
 
 public class StudentSystem {
 
@@ -33,8 +30,9 @@ public class StudentSystem {
     }
 
     private static final long serialVersionUID = 1L;
+    private static final boolean True = false;
     // private Map<String, Students> students = new HashMap<>();
-    Map<String, Students> students = new HashMap<>();
+    static Map<String, Students> students = new HashMap<>();
     private Random random = new Random();
 
     private String generateID() {
@@ -61,7 +59,7 @@ public class StudentSystem {
         }
     }
 
-    private void saveToFile() {
+    public static void saveToFile() {
         try {
             // Create a FileOutputStream to write to the file
             FileOutputStream fileOut = new FileOutputStream("students.data");
@@ -116,9 +114,9 @@ public class StudentSystem {
 
     public boolean login(String email, String password) {
         Students student = students.get(email);
-        StudentCourseSystem studentCourseSystem = new StudentCourseSystem();
-        studentCourseSystem.studentCourseMenu();
-        studentCourseSystem.changePassword(email);
+        // StudentCourseSystem studentCourseSystem = new StudentCourseSystem();
+        // studentCourseSystem.studentCourseMenu();
+        // studentCourseSystem.changePassword(email);
         return student != null && student.getPassword().equals(password);
     }
 
@@ -188,9 +186,19 @@ public class StudentSystem {
         System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
 
         // Try to login with correct credentials
-        loggedIn = system.login("john.doe@university.com", "Abcdef123");
-        System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
+        // loggedIn = system.login("john.doe@university.com", "Abcdef123");
+        // System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
 
+        // System.out.println(loggedIn == True);
+
+        if (loggedIn){
+            StudentCourseSystem studentCourseSystem = new StudentCourseSystem();
+            studentCourseSystem.studentCourseMenu(studentEmail);
+            // studentCourseSystem.changePassword(studentEmail);
+
+        }
+        
+        
         // // Try to login with incorrect password
         // loggedIn = system.login("john.doe@university.com", "WrongPassword");
         // System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
