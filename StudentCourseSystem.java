@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class StudentCourseSystem {
     // System.out.println("Stdent After login:");
     // System.out.println(student);
-    
+
 
     static Map<String, StudentCourseSystem> courses = new HashMap<>();
 
@@ -20,9 +20,11 @@ public class StudentCourseSystem {
 
         do {
             System.out.println("The Student Course System");
-            System.out.println("(c) change password");
-            System.out.println("(e) Enroll subject");
-            System.out.println("(x) exit");
+            System.out.println("(C) change password");
+            System.out.println("(E) Enroll subject");
+            System.out.println("(D) Drop subject");
+            System.out.println("(S) Show Enrolled Subjects");
+            System.out.println("(X) exit");
             System.out.print("Enter your choice: ");
             choice = scanner.nextLine();
 
@@ -30,13 +32,18 @@ public class StudentCourseSystem {
                 case "c", "C":
                     changePassword(email);
                     break;
-                // case "x":
+                // case "X":
                 //     saveStudentsData();
                 //     System.out.println("Exiting student menu...");
                 //     break;
                 case "e", "E":
-                    System.out.println("Case E");
                     Subjects.enrollSubject();
+                    break;
+                case "d", "D":
+                    Subjects.dropsubject();
+                    break;
+                case "s", "S":
+                    Subjects.showEnrolledSubjects();
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
@@ -44,9 +51,9 @@ public class StudentCourseSystem {
             }
         } while (!choice.equals("X"));
     }
-    
-    
-    
+
+
+
 
     public void changePassword(String email) {
 
@@ -72,14 +79,11 @@ public class StudentCourseSystem {
             System.out.println(reNewPassword);
 
             if (newPassword.equals(reNewPassword) && password.matches(Utils.PASSWORD_REGEX)) {
-                // Students student1 = new Students(id, email, password);
-                // students.put(id, student);
-                // students.put(email, student);
                 student.setPassword(newPassword);
                 System.out.println("Password Updated");
-                
+
                 StudentSystem.saveToFile();
-                System.out.println("Stdent After changing password:");
+                System.out.println("Student.data After changing password:");
                 System.out.println(student);
             } else {
                 System.out.println("Both new passwords didn't match.");
@@ -92,8 +96,3 @@ public class StudentCourseSystem {
      }
 
 }
-
-
-
-
-

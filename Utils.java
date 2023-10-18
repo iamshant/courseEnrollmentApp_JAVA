@@ -9,11 +9,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.HashMap;
 
-
 public class Utils {
 
- 
-    
     public static boolean isValidEmailAddrRegex(String emailValidationRegex, String emailAddrToValidate) {
         return Pattern.matches(emailValidationRegex, emailAddrToValidate);
     }
@@ -26,8 +23,6 @@ public class Utils {
         System.out.println("This is Utils");
     }
 
-
-
     // reading data from database
     private static final String FILE_NAME = "students.data";
 
@@ -39,13 +34,18 @@ public class Utils {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        System.out.println(students);
 
-        if (students != null) {
-            // Now you can work with the data in the 'students' map
-            for (Map.Entry<String, Students> entry : students.entrySet()) {
-                System.out.println("ID: " + entry.getKey() + ", " + entry.getValue());
-            }
-        }
+        // if (students != null) {
+        //     // Now you can work with the data in the 'students' map
+        //     for (Map.Entry<String, Students> entry : students.entrySet()) {
+        //         System.out.println("Email ID: " + entry.getKey() + ", " + entry.getValue());
+        //     }
+        //     System.out.println("\n\n");
+        //     for (Students student : students.values()) {
+        //         System.out.println(student.getEmail());
+        //     }
+        // }
     }
 
 }

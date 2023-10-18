@@ -11,27 +11,39 @@ import java.util.Scanner;
 public class StudentSystem {
 
     public void studentMenu() {
-        System.out.print("Student System: (L)ogin, (R)egister, or e(X)it : ");
-        Scanner userInput = new Scanner(System.in);
-        String chooseStudentMenu = userInput.nextLine();
+        String chooseStudentMenu;
+        do {
+            System.out.println("The Student System");
+            System.out.println("(L) Login");
+            System.out.println("(R) Register");
+            System.out.println("(X) eXit");
+            System.out.print("Enter your choice: ");
 
-        switch (chooseStudentMenu) {
-            // case "L", "Login":
-            case "L":
-                StudentLogin();
-                break;
-            // case "A", "Register":
-            case "R":
-                StudentRegister();
-                break;
-            default:
-                break;
-        }
+            Scanner userInput = new Scanner(System.in);
+            chooseStudentMenu = userInput.nextLine();
+
+            switch (chooseStudentMenu) {
+                // case "L", "Login":
+                case "L":
+                    StudentLogin();
+                    break;
+                // case "A", "Register":
+                case "R":
+                    StudentRegister();
+                    break;
+                case "X":
+                    saveToFile();
+                    System.out.println("Exiting...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (!chooseStudentMenu.equals("X"));
+        
     }
 
     private static final long serialVersionUID = 1L;
     private static final boolean True = false;
-    // private Map<String, Students> students = new HashMap<>();
     static Map<String, Students> students = new HashMap<>();
     private Random random = new Random();
 
@@ -40,6 +52,7 @@ public class StudentSystem {
         return String.format("%06d", id);
     }
 
+    
     public void register(String email, String password) {
         if (email.matches(Utils.EMAIL_REGEX) && password.matches(Utils.PASSWORD_REGEX)) {
 
@@ -47,10 +60,11 @@ public class StudentSystem {
             do {
                 id = generateID();
             } while (students.containsKey(id));
-            // students.put(new Students(studentId, email, password));
+            
             Students student = new Students(id, email, password);
-            // students.put(id, student);
-            students.put(email, student);
+            students.put(email, student);            
+            System.out.println(students);
+
             saveToFile();
             // System.out.println(students);
             System.out.println("Registration successful.");
@@ -59,6 +73,7 @@ public class StudentSystem {
         }
     }
 
+    
     public static void saveToFile() {
         try {
             // Create a FileOutputStream to write to the file
@@ -79,6 +94,7 @@ public class StudentSystem {
         }
     }
 
+    
     @SuppressWarnings("unchecked")
     public void loadFromFile() {
         try {
@@ -90,18 +106,6 @@ public class StudentSystem {
         }
     }
 
-    // Log in by student Email
-
-    // public boolean login(String email, String password) {
-    // for (Students student : students) {
-    // // System.out.println(student);
-    // if (student.getEmail().equals(email) &&
-    // student.getPassword().equals(password)) {
-    // return true;
-    // }
-    // }
-    // return false;
-    // }
 
     // Log in by student ID
 
@@ -114,60 +118,23 @@ public class StudentSystem {
 
     public boolean login(String email, String password) {
         Students student = students.get(email);
-        // StudentCourseSystem studentCourseSystem = new StudentCourseSystem();
-        // studentCourseSystem.studentCourseMenu();
-        // studentCourseSystem.changePassword(email);
         return student != null && student.getPassword().equals(password);
     }
 
     public void printAllData() {
-        for (Students student : students.values()) {
-            System.out.println(student);
+        System.out.println(students);
+        System.out.println("\n");
+        System.out.println("\n");
+        // for (Students student : students.values()) {
+        //     System.out.println(student);
+        // }
+        for (Map.Entry<String, Students> entry : students.entrySet()) {
+          System.out.println(entry.getKey() + ": " + entry.getValue());
         }
-    }
-
-    public void changePassword(String email) {
-
-        System.out.println("Type your previous password: ");
-        StudentSystem system = new StudentSystem();
-        system.loadFromFile();
-        Students student = students.get(email);
-        String password = student.getPassword();
-        // String email = student.getEmail();
-        String id = student.getId();
-        Scanner userInput = new Scanner(System.in);
-        String previousPassword = userInput.nextLine();
-
-        if (student.getPassword().equals(previousPassword)) {
-            System.out.println("Type your New password: ");
-            Scanner userInput1 = new Scanner(System.in);
-            String newPassword = userInput1.nextLine();
-            System.out.println(newPassword);
-
-            System.out.println("Re Type your New password: ");
-            Scanner userInput2 = new Scanner(System.in);
-            String reNewPassword = userInput2.nextLine();
-            System.out.println(reNewPassword);
-
-            if (newPassword.equals(reNewPassword) && password.matches(Utils.PASSWORD_REGEX)) {
-                // Students student1 = new Students(id, email, password);
-                // students.put(id, student);
-                // students.put(email, student);
-                student.setPassword(newPassword);
-                System.out.println("Password Updated");
-                saveToFile();
-                System.out.println("Stdent After changing password:");
-                System.out.println(student);
-            } else {
-                System.out.println("Both new passwords didn't match.");
-
-            }
-
-        } else {
-            System.out.println("Wrong Previous Password.");
-        }
+        
     }
     
+
 
     public void StudentLogin() {
 
@@ -197,8 +164,8 @@ public class StudentSystem {
             // studentCourseSystem.changePassword(studentEmail);
 
         }
-        
-        
+
+
         // // Try to login with incorrect password
         // loggedIn = system.login("john.doe@university.com", "WrongPassword");
         // System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
