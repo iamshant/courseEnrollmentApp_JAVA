@@ -17,8 +17,10 @@ public class Main {
       // This part needs to be modified same as StudentMenu, it will be adminMenu    
       // case "A", "Admin":
       case "A":
-        Admins admin = new Admins();
-        admin.Name();
+        AdminSystem adminSystem = new AdminSystem();
+        // Admins admin = new Admins();
+        adminSystem.adminMenu();
+        // admin.Name();
         break;
       default:
         break;

@@ -1,98 +1,63 @@
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class StudentCourseSystem {
-    // System.out.println("Stdent After login:");
-    // System.out.println(student);
-
-
-    static Map<String, StudentCourseSystem> courses = new HashMap<>();
-
-
-
-    public void studentCourseMenu(String email){
-        // String email = StudentSystem ;
-
+    public void studentCourseMenu(Students students){
+        StudentSystem studentSystem = new StudentSystem();
         Scanner scanner = new Scanner(System.in);
-        String choice;
-
-        do {
-            System.out.println("The Student Course System");
-            System.out.println("(C) change password");
-            System.out.println("(E) Enroll subject");
-            System.out.println("(D) Drop subject");
-            System.out.println("(S) Show Enrolled Subjects");
-            System.out.println("(X) exit");
-            System.out.print("Enter your choice: ");
-            choice = scanner.nextLine();
-
+        System.out.print("Student Course Menu (c/e/r/s/x):");
+        String choice = scanner.nextLine();
             switch (choice) {
-                case "c", "C":
-                    changePassword(email);
+                case "c":
+                    System.out.println("Updating Password");
+                    System.out.print("New Password: ");
+                    String newPassword = scanner.nextLine();
+                    String confirmPassword = null;
+                    while(null == confirmPassword || !newPassword.equals(confirmPassword)) {
+                        System.out.println("Confirm Password: ");
+                        confirmPassword = scanner.nextLine();
+                    }
+                    //TODO check password with the password policy
+                    students.setPassword(newPassword);
+                    studentSystem.saveToFile();
                     break;
-                // case "X":
-                //     saveStudentsData();
-                //     System.out.println("Exiting student menu...");
-                //     break;
-                case "e", "E":
-                    Subjects.enrollSubject();
+                case "e":
+                    System.out.println("before: " + students);
+                    if (students.getSubjectList().size() < 4) {
+                        enrollSubject(students);
+                    } else {
+                        System.out.println("Already enroll 4 subjects.");
+                    }
+                    studentSystem.saveToFile();
+                    System.out.println("after: " + students);
                     break;
-                case "d", "D":
-                    Subjects.dropsubject();
+                case "r":
+                    students.getSubjectList().remove(0);
+                    System.out.println("You are now enrolled in " + students.getSubjectList().size() + " out of 4 subjects");
+                    studentSystem.saveToFile();
                     break;
-                case "s", "S":
-                    Subjects.showEnrolledSubjects();
+                case "s":
+                    break;
+                case "x":
+                    System.out.println("Exiting student menu...");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
-                    break;
             }
-        } while (!choice.equals("X"));
-    }
-
-
-
-
-    public void changePassword(String email) {
-
-        System.out.println("Type your previous password: ");
-        StudentSystem system = new StudentSystem();
-        system.loadFromFile();
-        Students student = system.students.get(email);
-        String password = student.getPassword();
-        // String email = student.getEmail();
-        String id = student.getId();
-        Scanner userInput = new Scanner(System.in);
-        String previousPassword = userInput.nextLine();
-
-        if (student.getPassword().equals(previousPassword)) {
-            System.out.println("Type your New password: ");
-            Scanner userInput1 = new Scanner(System.in);
-            String newPassword = userInput1.nextLine();
-            System.out.println(newPassword);
-
-            System.out.println("Re Type your New password: ");
-            Scanner userInput2 = new Scanner(System.in);
-            String reNewPassword = userInput2.nextLine();
-            System.out.println(reNewPassword);
-
-            if (newPassword.equals(reNewPassword) && password.matches(Utils.PASSWORD_REGEX)) {
-                student.setPassword(newPassword);
-                System.out.println("Password Updated");
-
-                StudentSystem.saveToFile();
-                System.out.println("Student.data After changing password:");
-                System.out.println(student);
-            } else {
-                System.out.println("Both new passwords didn't match.");
-
-            }
-
-        } else {
-            System.out.println("Wrong Previous Password.");
         }
-     }
 
+    public void enrollSubject(Students students) {
+        String id = "12345"; //TODO random ID
+        int mark = 40; //TODO random mark
+        String grade = "Z"; //TODO assign grade by random mark
+        Subject subject = new Subject(id, grade, mark);
+        if( students.getSubjectList() == null) {
+            students.setSubjectList(new ArrayList());
+        }
+        students.getSubjectList().add(subject);
+    }
 }

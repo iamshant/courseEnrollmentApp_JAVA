@@ -10,6 +10,10 @@ import java.util.Scanner;
 
 public class StudentSystem {
 
+    private static final long serialVersionUID = 1L;
+    public static Map<String, Students> students = new HashMap<>();
+    private Random random = new Random();
+
     public void studentMenu() {
         String chooseStudentMenu;
         do {
@@ -42,10 +46,8 @@ public class StudentSystem {
         
     }
 
-    private static final long serialVersionUID = 1L;
     private static final boolean True = false;
-    static Map<String, Students> students = new HashMap<>();
-    private Random random = new Random();
+//    private Random random = new Random();
 
     private String generateID() {
         int id = random.nextInt(999999) + 1;
@@ -55,7 +57,6 @@ public class StudentSystem {
     
     public void register(String email, String password) {
         if (email.matches(Utils.EMAIL_REGEX) && password.matches(Utils.PASSWORD_REGEX)) {
-
             String id;
             do {
                 id = generateID();
@@ -64,17 +65,14 @@ public class StudentSystem {
             Students student = new Students(id, email, password);
             students.put(email, student);            
             System.out.println(students);
-
             saveToFile();
-            // System.out.println(students);
             System.out.println("Registration successful.");
         } else {
             System.out.println("Invalid email or password format.");
         }
     }
 
-    
-    public static void saveToFile() {
+    public void saveToFile() {
         try {
             // Create a FileOutputStream to write to the file
             FileOutputStream fileOut = new FileOutputStream("students.data");
@@ -99,7 +97,12 @@ public class StudentSystem {
     public void loadFromFile() {
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream("students.data"));
-            students = (Map<String, Students>) in.readObject();
+            Object object = in.readObject();
+            if (object != null) {
+                students = (Map<String, Students>) object;
+            } else {
+                students = new HashMap<>();
+            }
             in.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -118,6 +121,8 @@ public class StudentSystem {
 
     public boolean login(String email, String password) {
         Students student = students.get(email);
+        StudentCourseSystem studentCourseSystem = new StudentCourseSystem();
+        studentCourseSystem.studentCourseMenu(student);
         return student != null && student.getPassword().equals(password);
     }
 
@@ -125,9 +130,6 @@ public class StudentSystem {
         System.out.println(students);
         System.out.println("\n");
         System.out.println("\n");
-        // for (Students student : students.values()) {
-        //     System.out.println(student);
-        // }
         for (Map.Entry<String, Students> entry : students.entrySet()) {
           System.out.println(entry.getKey() + ": " + entry.getValue());
         }
@@ -160,7 +162,7 @@ public class StudentSystem {
 
         if (loggedIn){
             StudentCourseSystem studentCourseSystem = new StudentCourseSystem();
-            studentCourseSystem.studentCourseMenu(studentEmail);
+//            studentCourseSystem.studentCourseMenu(studentEmail);
             // studentCourseSystem.changePassword(studentEmail);
 
         }

@@ -7,12 +7,21 @@ class Students implements Serializable {
     private String email;
     private String password;
     private Subjects subjects;
+    private List<Subject> subjectList;
+
+    public List<Subject> getSubjectList() {
+        return subjectList;
+    }
+
+    public void setSubjectList(List<Subject> subjectList) {
+        this.subjectList = subjectList;
+    }
 
     public Students(String id, String email, String password) {
         this.id = id;
         this.email = email;
         this.password = password;
-        // this.subjects;
+        this.subjectList = new ArrayList();
     }
 
     public String getId() {
@@ -37,6 +46,6 @@ class Students implements Serializable {
     
     @Override
     public String toString() {
-        return "Email ID: " + id + ", Email: " + email + ", Password: " + password;
+        return "ID: " + id + ", Email: " + email + ", Password: " + password + ", Subject: " + subjectList;
     }
 }
