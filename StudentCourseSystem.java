@@ -1,63 +1,77 @@
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 
 public class StudentCourseSystem {
     public void studentCourseMenu(Students students){
         StudentSystem studentSystem = new StudentSystem();
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Student Course Menu (c/e/r/s/x):");
-        String choice = scanner.nextLine();
+        String choice = "";
+        while(!choice.equals("x")) {
+            System.out.print("\t\tStudent Course Menu (c/e/r/s/x):");
+            Scanner scanner = new Scanner(System.in);
+            choice = scanner.nextLine();
             switch (choice) {
                 case "c":
-                    System.out.println("Updating Password");
-                    System.out.print("New Password: ");
+                    System.out.println("\t\tUpdating Password");
+                    System.out.print("\t\tNew Password: ");
                     String newPassword = scanner.nextLine();
                     String confirmPassword = null;
-                    while(null == confirmPassword || !newPassword.equals(confirmPassword)) {
-                        System.out.println("Confirm Password: ");
+                    while (null == confirmPassword || !newPassword.equals(confirmPassword)) {
+                        System.out.println("\t\tConfirm Password: ");
                         confirmPassword = scanner.nextLine();
                     }
-                    //TODO check password with the password policy
                     students.setPassword(newPassword);
                     studentSystem.saveToFile();
                     break;
                 case "e":
-                    System.out.println("before: " + students);
-                    if (students.getSubjectList().size() < 4) {
+                    if (null == students.getSubjectList() || students.getSubjectList().size() < 4) {
                         enrollSubject(students);
                     } else {
-                        System.out.println("Already enroll 4 subjects.");
+                        System.out.println("\t\tAlready enroll 4 subjects.");
                     }
                     studentSystem.saveToFile();
-                    System.out.println("after: " + students);
                     break;
                 case "r":
                     students.getSubjectList().remove(0);
-                    System.out.println("You are now enrolled in " + students.getSubjectList().size() + " out of 4 subjects");
+                    System.out.println("\t\tYou are now enrolled in " + students.getSubjectList().size() + " out of 4 subjects");
                     studentSystem.saveToFile();
                     break;
                 case "s":
-                    break;
-                case "x":
-                    System.out.println("Exiting student menu...");
+                    for(Subject subject: students.getSubjectList()){
+                        System.out.println("\t\t[ Subject::" + subject.getId()
+                                + " -- mark = " + subject.getMark()
+                                + " -- grade = " + subject.getGrade() + " ]");
+                    }
                     break;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    break;
             }
         }
+    }
 
     public void enrollSubject(Students students) {
-        String id = "12345"; //TODO random ID
-        int mark = 40; //TODO random mark
-        String grade = "Z"; //TODO assign grade by random mark
+        String id = generateID();
+        int mark = generateMark();
+        String grade = assignGrade(mark);
         Subject subject = new Subject(id, grade, mark);
-        if( students.getSubjectList() == null) {
+        if(students.getSubjectList() == null) {
             students.setSubjectList(new ArrayList());
         }
         students.getSubjectList().add(subject);
+        System.out.println("\t\tEnrolling in Subject-" + id);
+        System.out.println("\t\tYou now enrolled in " + students.getSubjectList().size() + " out of 4 subjects");
+    }
+    private String generateID() {
+        int id = Subjects.random.nextInt(999) + 1;
+        return String.format("%03d", id);
+    }
+    private int generateMark () {
+        Random random = new Random();
+        return 25 + random.nextInt(100);
+    }
+    private String assignGrade(int mark) {
+        if (mark >= 50) return "P";
+        else return "F";
     }
 }

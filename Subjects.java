@@ -113,8 +113,6 @@ public class Subjects {
 
             // Close the ObjectOutputStream
             objectOut.close();
-
-            System.out.println("The file 'students.data' has been created.");
         } catch (IOException e) {
             e.printStackTrace();
         }

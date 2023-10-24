@@ -17,30 +17,22 @@ public class StudentSystem {
     public void studentMenu() {
         String chooseStudentMenu;
         do {
-            System.out.println("The Student System");
-            System.out.println("(L) Login");
-            System.out.println("(R) Register");
-            System.out.println("(X) eXit");
-            System.out.print("Enter your choice: ");
-
+            System.out.print("\tStudent System (l/r/x): ");
             Scanner userInput = new Scanner(System.in);
             chooseStudentMenu = userInput.nextLine();
-
             switch (chooseStudentMenu) {
-                // case "L", "Login":
-                case "L":
+                case "l":
                     StudentLogin();
                     break;
-                // case "A", "Register":
-                case "R":
+                case "r":
                     StudentRegister();
                     break;
-                case "X":
+                case "x":
                     saveToFile();
                     System.out.println("Exiting...");
                     break;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("\tInvalid choice. Please try again.");
             }
         } while (!chooseStudentMenu.equals("X"));
         
@@ -85,8 +77,6 @@ public class StudentSystem {
 
             // Close the ObjectOutputStream
             objectOut.close();
-
-            System.out.println("The file 'students.data' has been created.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -119,10 +109,8 @@ public class StudentSystem {
 
     // ToDo: Anyone can get the data from here. It's a concern
 
-    public boolean login(String email, String password) {
+    public boolean validateStudentIsExistAndIsCorrectPassword(String email, String password) {
         Students student = students.get(email);
-        StudentCourseSystem studentCourseSystem = new StudentCourseSystem();
-        studentCourseSystem.studentCourseMenu(student);
         return student != null && student.getPassword().equals(password);
     }
 
@@ -135,46 +123,33 @@ public class StudentSystem {
         }
         
     }
-    
-
 
     public void StudentLogin() {
 
         StudentSystem system = new StudentSystem();
         system.loadFromFile();
 
-        System.out.print("Enter Your University Email to Login: ");
-        Scanner studentEmailInput = new Scanner(System.in);
-        String studentEmail = studentEmailInput.nextLine();
-
-        System.out.print("Enter Your Password: ");
-        Scanner studentPasswordInput = new Scanner(System.in);
-        String studentPassword = studentPasswordInput.nextLine();
-
-        boolean loggedIn = system.login(studentEmail, studentPassword);
-        System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
-
-        // Try to login with correct credentials
-        // loggedIn = system.login("john.doe@university.com", "Abcdef123");
-        // System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
-
-        // System.out.println(loggedIn == True);
-
-        if (loggedIn){
-            StudentCourseSystem studentCourseSystem = new StudentCourseSystem();
-//            studentCourseSystem.studentCourseMenu(studentEmail);
-            // studentCourseSystem.changePassword(studentEmail);
-
+        boolean loggedIn = false;
+        while(!loggedIn) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("\tEmail: ");
+            String studentEmail = scanner.nextLine();
+            System.out.print("\tPassword: ");
+            String studentPassword = scanner.nextLine();
+            if (studentEmail.matches(Utils.EMAIL_REGEX) && studentPassword.matches(Utils.PASSWORD_REGEX)) {
+                System.out.println("\temail and password formats acceptable");
+                loggedIn = system.validateStudentIsExistAndIsCorrectPassword(studentEmail, studentPassword);
+                if (loggedIn) {
+                    Students student = students.get(studentEmail);
+                    StudentCourseSystem studentCourseSystem = new StudentCourseSystem();
+                    studentCourseSystem.studentCourseMenu(student);
+                } else {
+                    System.out.println("\tStudent does not exist");
+                }
+            } else {
+                System.out.println("\tIncorrect email or password format");
+            }
         }
-
-
-        // // Try to login with incorrect password
-        // loggedIn = system.login("john.doe@university.com", "WrongPassword");
-        // System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
-
-        // // Try to login with non-existent email
-        // loggedIn = system.login("nonexistent.email@university.com", "SomePassword");
-        // System.out.println(loggedIn ? "Login successful" : "Invalid credentials");
     }
 
     public void StudentRegister() {
