@@ -52,7 +52,7 @@ public class StudentCourseSystem {
 
     public void enrollSubject(Students students) {
         String id = generateID();
-        int mark = generateMark();
+        double mark = generateMark();
         String grade = assignGrade(mark);
         Subject subject = new Subject(id, grade, mark);
         if(students.getSubjectList() == null) {
@@ -66,11 +66,13 @@ public class StudentCourseSystem {
         int id = Subjects.random.nextInt(999) + 1;
         return String.format("%03d", id);
     }
-    private int generateMark () {
-        Random random = new Random();
-        return 25 + random.nextInt(100);
+ 
+    private static double generateMark() {
+            Random random = new Random();
+        return 25 + (100 - 25) * random.nextDouble();
     }
-    private String assignGrade(int mark) {
+
+    private String assignGrade(double mark) {
         if (mark >= 50) return "P";
         else return "F";
     }
