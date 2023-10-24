@@ -7,16 +7,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.jar.Attributes.Name;
 
 public class StudentSystem {
 
     private static final long serialVersionUID = 1L;
     public static Map<String, Students> students = new HashMap<>();
     private Random random = new Random();
+    private static final String STUDENTS_DATA_FILE = "students.data";
 
-    public void studentMenu() {
+    public void studentMenu() throws IOException {
         String chooseStudentMenu;
-        do {
             System.out.print("\tStudent System (l/r/x): ");
             Scanner userInput = new Scanner(System.in);
             chooseStudentMenu = userInput.nextLine();
@@ -28,18 +29,14 @@ public class StudentSystem {
                     StudentRegister();
                     break;
                 case "x":
-                    saveToFile();
-                    System.out.println("Exiting...");
+                    Main.main(null);
                     break;
                 default:
-                    System.out.println("\tInvalid choice. Please try again.");
-            }
-        } while (!chooseStudentMenu.equals("X"));
-        
+                    System.out.println("\tInvalid choice.");
+                    break;
+            }  
     }
 
-    private static final boolean True = false;
-//    private Random random = new Random();
 
     private String generateID() {
         int id = random.nextInt(999999) + 1;
@@ -47,20 +44,90 @@ public class StudentSystem {
     }
 
     
-    public void register(String email, String password) {
-        if (email.matches(Utils.EMAIL_REGEX) && password.matches(Utils.PASSWORD_REGEX)) {
-            String id;
-            do {
-                id = generateID();
-            } while (students.containsKey(id));
+    // public void register(String email, String password) {
+        
+    //     if (email.matches(Utils.EMAIL_REGEX) && password.matches(Utils.PASSWORD_REGEX)) {
+
+    //         System.out.println("\temail and password formats acceptable");
             
-            Students student = new Students(id, email, password);
-            students.put(email, student);            
-            System.out.println(students);
-            saveToFile();
-            System.out.println("Registration successful.");
-        } else {
-            System.out.println("Invalid email or password format.");
+    //         String firstName = email.split("[. @]+", 3)[0];
+    //         String lastName = email.split("[. @]+", 3)[1];
+    //         String name =  firstName + " " + lastName;
+            
+    //         Students checkStudent = students.get(email);
+            
+    //         if (checkStudent != null) System.out.println("\tStudent " + name + " already exists");
+    //         else {
+    //             String id;
+    //             do {
+    //                 id = generateID();
+    //             } while (students.containsKey(id));
+                
+    //             Students student = new Students(id, email, password);
+    //             students.put(email, student);            
+    //             // System.out.println(students);
+    //             saveToFile();
+    //             System.out.println("\tName: " + name);
+    //             System.out.println("\tEnrolling Student " + name);
+    //         }
+    //     } else {
+    //         System.out.println("\tIncorrect email or password format.");
+    //     }
+    // }
+
+    public void StudentRegister() throws IOException {
+        StudentSystem system = new StudentSystem();
+
+        system.loadFromFile(STUDENTS_DATA_FILE);
+        System.out.println("\tStudent Sign Up");
+
+        boolean registered = false;
+        
+        while(!registered){
+            System.out.print("\tEmail: ");
+            Scanner studentEmailInput = new Scanner(System.in);
+            String studentEmail = studentEmailInput.nextLine();
+
+            System.out.print("\tPassword: ");
+            Scanner studentPasswordInput = new Scanner(System.in);
+            String studentPassword = studentPasswordInput.nextLine();
+
+            // // Register a new student
+            // system.register(studentEmail, studentPassword);
+            // studentMenu();
+
+
+            if (studentEmail.matches(Utils.EMAIL_REGEX) && studentPassword.matches(Utils.PASSWORD_REGEX)) {
+
+                System.out.println("\temail and password formats acceptable");
+                
+                String firstName = studentEmail.split("[. @]+", 3)[0];
+                String lastName = studentEmail.split("[. @]+", 3)[1];
+                String name =  firstName + " " + lastName;
+                
+
+                registered = students.get(studentEmail) != null;
+                
+                if (registered) {
+                    System.out.println("\tStudent " + name + " already exists");
+                    studentMenu();
+                } else {
+                    String id;
+                    do {
+                        id = generateID();
+                    } while (students.containsKey(id));
+                    
+                    Students student = new Students(id, studentEmail, studentPassword);
+                    students.put(studentEmail, student);            
+                    // System.out.println(students);
+                    saveToFile();
+                    System.out.println("\tName: " + name);
+                    System.out.println("\tEnrolling Student " + name);
+                    studentMenu();                    
+                }
+            } else {
+                System.out.println("\tIncorrect email or password format.");
+            }
         }
     }
 
@@ -84,9 +151,9 @@ public class StudentSystem {
 
     
     @SuppressWarnings("unchecked")
-    public void loadFromFile() {
+    public void loadFromFile(String fileName) {
         try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream("students.data"));
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
             Object object = in.readObject();
             if (object != null) {
                 students = (Map<String, Students>) object;
@@ -99,15 +166,6 @@ public class StudentSystem {
         }
     }
 
-
-    // Log in by student ID
-
-    // public boolean login(String id, String password) {
-    // Student student = students.get(id);
-    // return student != null && student.getPassword().equals(password);
-    // }
-
-    // ToDo: Anyone can get the data from here. It's a concern
 
     public boolean validateStudentIsExistAndIsCorrectPassword(String email, String password) {
         Students student = students.get(email);
@@ -124,12 +182,15 @@ public class StudentSystem {
         
     }
 
-    public void StudentLogin() {
+    public void StudentLogin() throws IOException {
 
         StudentSystem system = new StudentSystem();
-        system.loadFromFile();
+        system.loadFromFile(STUDENTS_DATA_FILE);
 
         boolean loggedIn = false;
+
+        System.out.println("\tStudent Sign In");
+
         while(!loggedIn) {
             Scanner scanner = new Scanner(System.in);
             System.out.print("\tEmail: ");
@@ -145,6 +206,7 @@ public class StudentSystem {
                     studentCourseSystem.studentCourseMenu(student);
                 } else {
                     System.out.println("\tStudent does not exist");
+                    studentMenu();
                 }
             } else {
                 System.out.println("\tIncorrect email or password format");
@@ -152,35 +214,5 @@ public class StudentSystem {
         }
     }
 
-    public void StudentRegister() {
-        StudentSystem system = new StudentSystem();
-
-        system.loadFromFile();
-
-        System.out.print("Enter Your University Email to Register: ");
-        Scanner studentEmailInput = new Scanner(System.in);
-        String studentEmail = studentEmailInput.nextLine();
-
-        System.out.print("Enter Your Password: ");
-        Scanner studentPasswordInput = new Scanner(System.in);
-        String studentPassword = studentPasswordInput.nextLine();
-
-        // Register a new student
-        system.register(studentEmail, studentPassword);
-
-        // system.register("abc.def@university.com", "Abcdef123");
-
-        // // Register a new student
-        // system.register("john.doe@university.com", "Abcdef123");
-
-        // // Register a new student
-        // system.register("aaaaa.doe@university.com", "Abcdef123");
-
-        // // Try to register with an invalid email format
-        // system.register("invalid.email", "Abcdef123");
-
-        // // Try to register with an invalid password format
-        // system.register("jane.doe@university.com", "invalidpassword");
-
-    }
+    
 }

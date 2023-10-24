@@ -6,7 +6,7 @@ class Students implements Serializable {
     private String id;
     private String email;
     private String password;
-    private Subjects subjects;
+    // private Subjects subjects;
     private List<Subject> subjectList;
 
     public List<Subject> getSubjectList() {

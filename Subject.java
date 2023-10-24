@@ -4,9 +4,9 @@ public class Subject implements Serializable {
     private static final long serialVersionUID = 1L;
     private String id;
     private String grade;
-    private double mark;
+    private int mark;
 
-    public Subject(String id, String grade, double mark) {
+    public Subject(String id, String grade, int mark) {
         this.id = id;
         this.grade = grade;
         this.mark = mark;
@@ -28,11 +28,11 @@ public class Subject implements Serializable {
         this.grade = grade;
     }
 
-    public double getMark() {
+    public int getMark() {
         return mark;
     }
 
-    public void setMark(double mark) {
+    public void setMark(int mark) {
         this.mark = mark;
     }
 
