@@ -1,6 +1,6 @@
 public class Admins {
     public void Name(){
-        System.out.println("ADMIN");
+        // System.out.println("ADMIN");
     }
     
 }
