@@ -79,7 +79,7 @@ public class StudentSystem {
         StudentSystem system = new StudentSystem();
 
         system.loadFromFile(STUDENTS_DATA_FILE);
-        System.out.println("\tStudent Sign Up");
+        System.out.println(Main.GREEN + "\tStudent Sign Up" + Main.RESET);
 
         boolean registered = false;
         
@@ -99,7 +99,7 @@ public class StudentSystem {
 
             if (studentEmail.matches(Utils.EMAIL_REGEX) && studentPassword.matches(Utils.PASSWORD_REGEX)) {
 
-                System.out.println("\temail and password formats acceptable");
+                System.out.println(Main.YELLOW + "\temail and password formats acceptable" + Main.RESET);
                 
                 String firstName = studentEmail.split("[. @]+", 3)[0];
                 String lastName = studentEmail.split("[. @]+", 3)[1];
@@ -109,7 +109,7 @@ public class StudentSystem {
                 registered = students.get(studentEmail) != null;
                 
                 if (registered) {
-                    System.out.println("\tStudent " + name + " already exists");
+                    System.out.println(Main.RED + "\tStudent " + name + " already exists" + Main.RESET);
                     studentMenu();
                 } else {
                     String id;
@@ -126,7 +126,7 @@ public class StudentSystem {
                     studentMenu();                    
                 }
             } else {
-                System.out.println("\tIncorrect email or password format.");
+                System.out.println(Main.RED + "\tIncorrect email or password format." + Main.RESET);
             }
         }
     }
@@ -189,7 +189,9 @@ public class StudentSystem {
 
         boolean loggedIn = false;
 
-        System.out.println("\tStudent Sign In");
+//        System.out.println(Main.GREEN + "\tStudent Sign In" + Main.RESET );
+        System.out.println( "\tStudent Sign In" );
+
 
         while(!loggedIn) {
             Scanner scanner = new Scanner(System.in);
@@ -198,18 +200,18 @@ public class StudentSystem {
             System.out.print("\tPassword: ");
             String studentPassword = scanner.nextLine();
             if (studentEmail.matches(Utils.EMAIL_REGEX) && studentPassword.matches(Utils.PASSWORD_REGEX)) {
-                System.out.println("\temail and password formats acceptable");
+                System.out.println(Main.YELLOW + "\temail and password formats acceptable" + Main.RESET );
                 loggedIn = system.validateStudentIsExistAndIsCorrectPassword(studentEmail, studentPassword);
                 if (loggedIn) {
                     Students student = students.get(studentEmail);
                     StudentCourseSystem studentCourseSystem = new StudentCourseSystem();
                     studentCourseSystem.studentCourseMenu(student);
                 } else {
-                    System.out.println("\tStudent does not exist");
+                    System.out.println(Main.RED + "\tStudent does not exist" + Main.RESET);
                     studentMenu();
                 }
             } else {
-                System.out.println("\tIncorrect email or password format");
+                System.out.println(Main.RED + "\tIncorrect email or password format" + Main.RESET);
             }
         }
     }
