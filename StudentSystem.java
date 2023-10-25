@@ -18,7 +18,7 @@ public class StudentSystem {
 
     public void studentMenu() throws IOException {
         String chooseStudentMenu;
-            System.out.print("\tStudent System (l/r/x): ");
+            System.out.print(Main.BLUE + "\tStudent System (l/r/x): " + Main.RESET);
             Scanner userInput = new Scanner(System.in);
             chooseStudentMenu = userInput.nextLine();
             switch (chooseStudentMenu) {
