@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    static String  RESET = "\u001B[0m";
+    static String RESET = "\u001B[0m";
     static String BLUE = "\u001B[34m";
     static String CYAN = "\u001B[36m";
     static String RED = "\u001B[31m";
@@ -13,9 +13,11 @@ public class Main {
     static String YELLOW = "\u001B[33m";
     static String BLACK = "\u001B[30m";
     static String MAGENTA = "\u001B[35m";
-  public static void main(String a[]) throws IOException {
 
-        
+
+    public static void main(String a[]) throws IOException {
+
+
 
         File file = new File("students.data");
 
@@ -43,7 +45,7 @@ public class Main {
             studentSystem.studentMenu();
             break;
 
-        // This part needs to be modified same as StudentMenu, it will be adminMenu    
+        // This part needs to be modified same as StudentMenu, it will be adminMenu
         // case "A", "Admin":
         case "A":
             AdminSystem adminSystem = new AdminSystem();

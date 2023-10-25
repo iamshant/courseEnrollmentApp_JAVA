@@ -10,12 +10,12 @@ public class StudentCourseSystem {
         StudentSystem studentSystem = new StudentSystem();
         String choice = "";
         while(!choice.equals("x")) {
-            System.out.print("\t\tStudent Course Menu (c/e/r/s/x):");
+            System.out.print(Main.BLUE + "\t\tStudent Course Menu (c/e/r/s/x):" + Main.RESET);
             Scanner scanner = new Scanner(System.in);
             choice = scanner.nextLine();
             switch (choice) {
                 case "c":
-                    System.out.println("\t\tUpdating Password");
+                    System.out.println(Main.YELLOW + "\t\tUpdating Password" + Main.RESET);
                     System.out.print("\t\tNew Password: ");
                     String newPassword = scanner.nextLine();
                     String confirmPassword = null;
@@ -23,7 +23,7 @@ public class StudentCourseSystem {
                         System.out.print("\t\tConfirm Password: ");
                         confirmPassword = scanner.nextLine();
                         if (!newPassword.equals(confirmPassword)){
-                            System.out.println("\t\tPassword does not match - try again");
+                            System.out.println(Main.RED + "\t\tPassword does not match - try again" + Main.RESET);
                             confirmPassword = null;
                         }   
                     }
@@ -34,7 +34,7 @@ public class StudentCourseSystem {
                     if (null == students.getSubjectList() || students.getSubjectList().size() < 4) {
                         enrollSubject(students);
                     } else {
-                        System.out.println("\t\tStudents are allowed to enroll in 4 subjects only");
+                        System.out.println(Main.RED + "\t\tStudents are allowed to enroll in 4 subjects only" + Main.RESET);
                     }
                     studentSystem.saveToFile();
                     break;
@@ -49,12 +49,15 @@ public class StudentCourseSystem {
                             break;
                         } 
                     }
-                    System.out.println("\t\tDropping Subject by ID: " + subId);
-                    System.out.println("\t\tYou are now enrolled in " + students.getSubjectList().size() + " out of 4 subjects");
+                    System.out.println(Main.YELLOW + "\t\tDroping Subject " + subId + Main.RESET);
+                    System.out.println(Main.YELLOW + "\t\tYou are now enrolled in " + students.getSubjectList().size() + " out of 4 subjects" + Main.RESET);
                     studentSystem.saveToFile();
                     break;
                 case "s":
-                    if (students.getSubjectList().isEmpty()) System.out.println("\t\tShowing 0 subjects");  
+//                    if (students.getSubjectList().isEmpty()) System.out.println(Main.YELLOW + "\t\tShowing 0 subjects" + Main.RESET);
+                    String abc = String.format("\t\tShowing %s subjects",students.getSubjectList().size());
+                    System.out.println(Main.YELLOW + abc + Main.RESET);
+
                     for(Subject subject: students.getSubjectList()){
                         System.out.println("\t\t[ Subject::" + subject.getId()
                                 + " -- mark = " + subject.getMark()
@@ -80,8 +83,8 @@ public class StudentCourseSystem {
             students.setSubjectList(new ArrayList());
         }
         students.getSubjectList().add(subject);
-        System.out.println("\t\tEnrolling in Subject-" + id);
-        System.out.println("\t\tYou now enrolled in " + students.getSubjectList().size() + " out of 4 subjects");
+        System.out.println(Main.YELLOW + "\t\tEnrolling in Subject-" + id + Main.RESET);
+        System.out.println(Main.YELLOW + "\t\tYou now enrolled in " + students.getSubjectList().size() + " out of 4 subjects" + Main.RESET);
     }
     private String generateID() {
         Random random = new Random();
