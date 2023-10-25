@@ -1,7 +1,9 @@
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
 
 public class AdminSystem {
     
@@ -32,9 +36,9 @@ public class AdminSystem {
                 case "p":
                     partitionStudents();
                     break;
-                // case 'r':
-                //     removeStudent();
-                //     break;
+                case "r":
+                    removeStudent();
+                    break;
                 case "s":
                     showStudents();
                     break;
@@ -69,7 +73,7 @@ public class AdminSystem {
         Scanner userInput = new Scanner(System.in);
         doubleCheck = userInput.nextLine();
 
-        if (file.exists() && doubleCheck=="Y") {
+        if (file.exists() && doubleCheck.equals("Y")) {
             if (file.delete()) {
                 System.out.println("\tStudents data cleared");
             }
@@ -91,10 +95,68 @@ public class AdminSystem {
             e.printStackTrace();
         }
     }
+
+    public void saveToFile() {
+        try {
+            // Create a FileOutputStream to write to the file
+            FileOutputStream fileOut = new FileOutputStream("students.data");
+
+            // Create an ObjectOutputStream to write objects
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+
+            // Write an example object (in this case, an ArrayList)
+            objectOut.writeObject(studentsAdmin);
+
+            // Close the ObjectOutputStream
+            objectOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     
 
     // Utils utils = new Utils();
     // utils.printAllData();
+
+    public void removeStudent(){
+
+        loadFromFile("students.data");
+
+        System.out.print("\tRemove by ID: ");
+
+        Scanner userInput = new Scanner(System.in);
+        String chooseStudentId = userInput.nextLine();
+
+        StudentCourseSystem studentCourseSystem = new StudentCourseSystem();
+
+        // Create an iterator over the map's entry set
+        java.util.Iterator<Map.Entry<String, Students>> iterator = studentsAdmin.entrySet().iterator();
+
+        // Iterate through the entries
+        // System.out.println(studentsAdmin.size());
+        int i = 0;
+        while (iterator.hasNext()) {
+            Map.Entry<String, Students> entry = iterator.next();
+            String key = entry.getKey();
+            String studentId = entry.getValue().getId();
+
+            // Condition for removing a key (for example, remove keys with values greater than 30)
+            if (chooseStudentId.equals(studentId)) {
+                // studentsAdmin.remove(entry.getKey());
+                iterator.remove();
+                saveToFile(); // Remove the entry from the map
+                System.out.println(String.format("\tRemoving Student %s Account", entry.getValue().getId()));
+                break;
+            }
+            i++;
+            if (i==studentsAdmin.size()) System.out.println("\tStudent does not exists");
+        }
+        
+
+
+        // Print the modified map
+        // System.out.println(map);
+    }
 
 
     public void partitionStudents(){
@@ -104,6 +166,8 @@ public class AdminSystem {
         loadFromFile("students.data");
 
         StudentCourseSystem studentCourseSystem = new StudentCourseSystem();
+
+        System.out.println("\tPASS/FAIL Partition");
 
         for (Map.Entry<String, Students> entry : studentsAdmin.entrySet()) {
             int mark = StudentCourseSystem.averageMark(entry.getValue());
@@ -138,6 +202,8 @@ public class AdminSystem {
 
         StudentCourseSystem studentCourseSystem = new StudentCourseSystem();
 
+        System.out.println("\tGrade Grouping");
+
         for (Map.Entry<String, Students> entry : studentsAdmin.entrySet()) {
             int mark = StudentCourseSystem.averageMark(entry.getValue());
             String grade = studentCourseSystem.assignGrade(mark);
@@ -156,18 +222,18 @@ public class AdminSystem {
             else if (grade == "HD") {groupHD.add(groupString); gradeNames.add("HD");}
         }
 
-            if (gradeNames.contains("Z")) System.out.println("Z --> " + groupZ);
-            if (gradeNames.contains("P")) System.out.println("P --> " + groupP);
-            if (gradeNames.contains("C")) System.out.println("C --> " + groupC);
-            if (gradeNames.contains("D")) System.out.println("D --> " + groupD);
-            if (gradeNames.contains("HD")) System.out.println("HD --> " + groupHD);
+            if (gradeNames.contains("Z")) System.out.println("\tZ --> " + groupZ);
+            if (gradeNames.contains("P")) System.out.println("\tP --> " + groupP);
+            if (gradeNames.contains("C")) System.out.println("\tC --> " + groupC);
+            if (gradeNames.contains("D")) System.out.println("\tD --> " + groupD);
+            if (gradeNames.contains("HD")) System.out.println("\tHD --> " + groupHD);
         
     }
 
     public void showStudents() {
         loadFromFile("students.data");
         // System.out.println(studentsAdmin);
-
+        System.out.println("\tStudent List");
         for (Map.Entry<String, Students> entry : studentsAdmin.entrySet()) {
             // ToDo: Make the firstName and LastName capitala letter, and email is case sensitive now
             String firstName = entry.getValue().getEmail().split("[. @]+", 3)[0];
