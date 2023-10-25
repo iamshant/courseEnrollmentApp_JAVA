@@ -94,7 +94,7 @@ public class StudentCourseSystem {
         return (int) (25 + (100 - 25) * random.nextDouble());
     }
 
-    private String assignGrade(double mark) {
+    public String assignGrade(double mark) {
         if (mark < 50) return "Z";
         else if ((mark <= 50) && (mark < 65)) return "P";
         else if ((mark <= 65) && (mark < 75)) return "C";

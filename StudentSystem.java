@@ -43,37 +43,6 @@ public class StudentSystem {
         return String.format("%06d", id);
     }
 
-    
-    // public void register(String email, String password) {
-        
-    //     if (email.matches(Utils.EMAIL_REGEX) && password.matches(Utils.PASSWORD_REGEX)) {
-
-    //         System.out.println("\temail and password formats acceptable");
-            
-    //         String firstName = email.split("[. @]+", 3)[0];
-    //         String lastName = email.split("[. @]+", 3)[1];
-    //         String name =  firstName + " " + lastName;
-            
-    //         Students checkStudent = students.get(email);
-            
-    //         if (checkStudent != null) System.out.println("\tStudent " + name + " already exists");
-    //         else {
-    //             String id;
-    //             do {
-    //                 id = generateID();
-    //             } while (students.containsKey(id));
-                
-    //             Students student = new Students(id, email, password);
-    //             students.put(email, student);            
-    //             // System.out.println(students);
-    //             saveToFile();
-    //             System.out.println("\tName: " + name);
-    //             System.out.println("\tEnrolling Student " + name);
-    //         }
-    //     } else {
-    //         System.out.println("\tIncorrect email or password format.");
-    //     }
-    // }
 
     public void StudentRegister() throws IOException {
         StudentSystem system = new StudentSystem();

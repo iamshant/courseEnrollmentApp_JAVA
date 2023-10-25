@@ -46,8 +46,8 @@ public class Main {
         // This part needs to be modified same as StudentMenu, it will be adminMenu    
         // case "A", "Admin":
         case "A":
-            // AdminSystem adminSystem = new AdminSystem();
-            // AdminSystem.adminMenu();
+            AdminSystem adminSystem = new AdminSystem();
+            adminSystem.adminMenu();
             // Admins admin = new Admins();
             // adminSystem.adminMenu();
             // admin.Name();
@@ -61,8 +61,8 @@ public class Main {
             break;
         }
 
-        Utils utils = new Utils();
-        utils.printAllData();
+        // Utils utils = new Utils();
+        // utils.printAllData();
 
     }
 
