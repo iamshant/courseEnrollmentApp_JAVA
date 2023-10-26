@@ -12,8 +12,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-import javax.swing.text.html.HTMLDocument.Iterator;
-
 public class AdminSystem {
     
     private Map<String, Students> studentsAdmin = new HashMap<>();  // Change to Map
@@ -22,7 +20,7 @@ public class AdminSystem {
         String chooseStudentMenu = "";
         
         while(!chooseStudentMenu.equals("x")){
-            System.out.print("\tAdmin System (c/g/p/r/s/x): ");
+            System.out.print(Main.BLUE + "\tAdmin System (c/g/p/r/s/x): " + Main.RESET);
             Scanner userInput = new Scanner(System.in);
             chooseStudentMenu = userInput.nextLine();
 
@@ -67,15 +65,15 @@ public class AdminSystem {
         File file = new File("students.data");
 
         String doubleCheck = "N";
-        System.out.println("\tClearing students database");
-        System.out.print("\tAre you sure you want to clear the database (Y)es/(N)o: ");
+        System.out.println(Main.YELLOW + "\tClearing students database" + Main.RESET);
+        System.out.print(Main.RED + "\tAre you sure you want to clear the database (Y)es/(N)o: " + Main.RESET);
 
         Scanner userInput = new Scanner(System.in);
         doubleCheck = userInput.nextLine();
 
         if (file.exists() && doubleCheck.equals("Y")) {
             if (file.delete()) {
-                System.out.println("\tStudents data cleared");
+                System.out.println(Main.YELLOW + "\tStudents data cleared" + Main.RESET);
             }
         } else adminMenu();
     }
@@ -167,7 +165,7 @@ public class AdminSystem {
 
         StudentCourseSystem studentCourseSystem = new StudentCourseSystem();
 
-        System.out.println("\tPASS/FAIL Partition");
+        System.out.println(Main.YELLOW + "\tPASS/FAIL Partition" + Main.RESET);
 
         for (Map.Entry<String, Students> entry : studentsAdmin.entrySet()) {
             int mark = StudentCourseSystem.averageMark(entry.getValue());
@@ -202,7 +200,7 @@ public class AdminSystem {
 
         StudentCourseSystem studentCourseSystem = new StudentCourseSystem();
 
-        System.out.println("\tGrade Grouping");
+        System.out.println(Main.YELLOW + "\tGrade Grouping" + Main.RESET);
 
         for (Map.Entry<String, Students> entry : studentsAdmin.entrySet()) {
             int mark = StudentCourseSystem.averageMark(entry.getValue());
@@ -233,7 +231,7 @@ public class AdminSystem {
     public void showStudents() {
         loadFromFile("students.data");
         // System.out.println(studentsAdmin);
-        System.out.println("\tStudent List");
+        System.out.println(Main.YELLOW + "\tStudent List" + Main.RESET);
         for (Map.Entry<String, Students> entry : studentsAdmin.entrySet()) {
             // ToDo: Make the firstName and LastName capitala letter, and email is case sensitive now
             String firstName = entry.getValue().getEmail().split("[. @]+", 3)[0];
