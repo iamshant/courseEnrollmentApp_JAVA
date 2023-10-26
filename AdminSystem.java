@@ -76,6 +76,7 @@ public class AdminSystem {
         if (file.exists() && doubleCheck.equals("Y")) {
             if (file.delete()) {
                 System.out.println("\tStudents data cleared");
+                // saveToFile();
             }
         } else adminMenu();
     }
