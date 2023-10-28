@@ -73,12 +73,9 @@ public class AdminSystem {
 
         if (file.exists() && doubleCheck.equals("Y")) {
             if (file.delete()) {
-<<<<<<< HEAD
                 System.out.println(Main.YELLOW + "\tStudents data cleared" + Main.RESET);
-=======
                 System.out.println("\tStudents data cleared");
                 // saveToFile();
->>>>>>> 76fa1d7ce1b931526aeb44b0dd1c7349e38bd24c
             }
         } else adminMenu();
     }
@@ -152,7 +149,7 @@ public class AdminSystem {
                 break;
             }
             i++;
-            if (i==studentsAdmin.size()) System.out.println("\tStudent does not exists");
+            if (i==studentsAdmin.size()) System.out.println(Main.RED + "\tStudent does not exists" + Main.RESET);
         }
         
 
