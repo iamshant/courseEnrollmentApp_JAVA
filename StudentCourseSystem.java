@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -63,7 +62,6 @@ public class StudentCourseSystem {
                                 + " -- mark = " + subject.getMark()
                                 + " -- grade = " + subject.getGrade() + " ]");
                     }
-                    System.out.println("\t\taverageMark -- " + averageMark(students) + ". --> need to delete this later on");
                     break;
                 case "x":
                     Main.main(null);
