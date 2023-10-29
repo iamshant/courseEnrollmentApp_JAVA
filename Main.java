@@ -45,20 +45,18 @@ public class Main {
            studentSystem.studentMenu();
            break;
 
-       // This part needs to be modified same as StudentMenu, it will be adminMenu
-       // case "A", "Admin":
        case "A":
            AdminSystem adminSystem = new AdminSystem();
            adminSystem.adminMenu();
-           // Admins admin = new Admins();
-           // adminSystem.adminMenu();
-           // admin.Name();
            break;
        case "X":
            System.out.println(YELLOW + "Thank You" + RESET);
            break;
        default:
-           System.out.println(Main.RED + "Invalid Choice!!! Choose S for Student System, A for Admin System, X for closing the app." + Main.RESET);
+           System.out.println(Main.RED + "Invalid Choice!!!" + 
+                                         "\nChoose S for Student System," + 
+                                         "\nA for Admin System," +
+                                         "\nX for closing the app." + Main.RESET);
            main(null);
            break;
        }

@@ -80,6 +80,7 @@ public class AdminSystem {
 
         if (file.exists() && doubleCheck.equals("Y")) {
             if (file.delete()) {
+                // studentsAdmin.clear();
                 System.out.println(Main.YELLOW + "\tStudents data cleared" + Main.RESET);
             }
         } else adminMenu();
@@ -157,10 +158,6 @@ public class AdminSystem {
             if (i==studentsAdmin.size()) System.out.println(Main.RED + "\tStudent does not exists" + Main.RESET);
         }
         
-
-
-        // Print the modified map
-        // System.out.println(map);
     }
 
 
@@ -183,7 +180,6 @@ public class AdminSystem {
             String lastName = entry.getValue().getEmail().split("[. @]+", 3)[1];
             lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
     
-            // ToDo: Deciding between integer and floating mark
             String groupString = String.format("%s %s :: %s --> GRADE: %s - MARK: %.2f",
                                                     firstName, lastName, entry.getValue().getId(), grade,  mark);
             
@@ -220,7 +216,6 @@ public class AdminSystem {
             String lastName = entry.getValue().getEmail().split("[. @]+", 3)[1];
             lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
             
-            // ToDo: Deciding between integer and floating mark
             String groupString = String.format("%s %s :: %s --> GRADE: %s - MARK: %.2f",
                                                     firstName, lastName, entry.getValue().getId(), grade,  mark);
             
@@ -244,7 +239,6 @@ public class AdminSystem {
         // System.out.println(studentsAdmin);
         System.out.println(Main.YELLOW + "\tStudent List" + Main.RESET);
         for (Map.Entry<String, Students> entry : studentsAdmin.entrySet()) {
-            // ToDo: Make the firstName and LastName capitala letter, and email is case sensitive now
             String firstName = entry.getValue().getEmail().split("[. @]+", 3)[0];
             firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
             String lastName = entry.getValue().getEmail().split("[. @]+", 3)[1];
@@ -255,8 +249,6 @@ public class AdminSystem {
                                                     lastName, 
                                                     entry.getValue().getId(), 
                                                     entry.getValue().getEmail()));
-            
-
         }
 
     }   

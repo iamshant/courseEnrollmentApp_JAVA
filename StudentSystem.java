@@ -62,10 +62,6 @@ public class StudentSystem {
             Scanner studentPasswordInput = new Scanner(System.in);
             String studentPassword = studentPasswordInput.nextLine();
 
-            // // Register a new student
-            // system.register(studentEmail, studentPassword);
-            // studentMenu();
-
 
             if (studentEmail.matches(Utils.EMAIL_REGEX) && studentPassword.matches(Utils.PASSWORD_REGEX)) {
 
@@ -83,6 +79,7 @@ public class StudentSystem {
                 if (registered) {
                     System.out.println(Main.RED + "\tStudent " + name + " already exists" + Main.RESET);
                     studentMenu();
+                    break;
                 } else {
                     String id;
                     do {
@@ -95,7 +92,8 @@ public class StudentSystem {
                     saveToFile();
                     System.out.println("\tName: " + name);
                     System.out.println("\tEnrolling Student " + name);
-                    studentMenu();                    
+                    studentMenu();
+                    break;                    
                 }
             } else {
                 System.out.println(Main.RED + "\tIncorrect email or password format." + Main.RESET);
@@ -179,6 +177,7 @@ public class StudentSystem {
                 } else {
                     System.out.println(Main.RED + "\tStudent does not exist" + Main.RESET);
                     studentMenu();
+                    break;
                 }
             } else {
                 System.out.println(Main.RED + "\tIncorrect email or password format" + Main.RESET);

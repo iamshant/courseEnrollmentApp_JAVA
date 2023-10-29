@@ -19,9 +19,18 @@ public class StudentCourseSystem {
             switch (choice) {
                 case "c":
                     System.out.println(Main.YELLOW + "\t\tUpdating Password" + Main.RESET);
-                    System.out.print("\t\tNew Password: ");
-                    String newPassword = scanner.nextLine();
+                    
+                    String newPassword = null;
                     String confirmPassword = null;
+                    while (null == newPassword ) {
+                        System.out.print("\t\tNew Password: ");
+                        newPassword = scanner.nextLine();
+                        if (!newPassword.matches(Utils.PASSWORD_REGEX)) {
+                            System.out.println(Main.RED + "\t\tIncorrect password format" + Main.RESET);
+                            newPassword = null;
+                        }
+                    }
+                    
                     while (null == confirmPassword || !newPassword.equals(confirmPassword)) {
                         System.out.print("\t\tConfirm Password: ");
                         confirmPassword = scanner.nextLine();
@@ -32,6 +41,7 @@ public class StudentCourseSystem {
                     }
                     students.setPassword(newPassword);
                     studentSystem.saveToFile();
+
                     break;
                 case "e":
                     if (null == students.getSubjectList() || students.getSubjectList().size() < 4) {
