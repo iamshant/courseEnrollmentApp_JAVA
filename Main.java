@@ -24,12 +24,12 @@ public class Main {
            if (!file.exists()) {
                try {
                    if (file.createNewFile()) {
-                       System.out.println("students.data file created for the first times.");
+                    //    System.out.println("students.data file created for the first times.");
                    } else {
-                       System.out.println("Failed to create students.data file.");
+                    //    System.out.println("Failed to create students.data file.");
                    }
                } catch (IOException e) {
-                   e.printStackTrace();
+                //    e.printStackTrace();
                }
            }
 
@@ -58,7 +58,7 @@ public class Main {
            System.out.println(YELLOW + "Thank You" + RESET);
            break;
        default:
-           System.out.println("Invalid Choice!!!");
+           System.out.println(Main.RED + "Invalid Choice!!! Choose S for Student System, A for Admin System, X for closing the app." + Main.RESET);
            main(null);
            break;
        }

@@ -20,11 +20,15 @@ public class Utils {
     }
 
     // static final String EMAIL_REGEX = "^([a-zA-Z]+\.)([a-zA-Z]+)@university.com$";
-    static final String EMAIL_REGEX = "^[a-zA-Z]+\\.[a-zA-Z]+@university\\.com$";
+    
+    // # ragex for Non Case sensitive university.com
+    static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@(?i)university\\.com$";
 
     // static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@university\\.com$";
     // static final String EMAIL_REGEX = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[university.com]$";
-    static final String PASSWORD_REGEX = "^[A-Z]\\w{5}\\d{3}$";
+    static final String PASSWORD_REGEX = "^[A-Z]\\w{5,}\\d{3}$";
+    // static final String PASSWORD_REGEX = "^(?=.*[A-Z])(?=.*[A-Za-Z]).{5,}(?=.*\\d{3,})(?=\\S+$)$";
+
 
     public void Name() {
         System.out.println("This is Utils");

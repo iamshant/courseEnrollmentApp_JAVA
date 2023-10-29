@@ -32,7 +32,8 @@ public class StudentSystem {
                     Main.main(null);
                     break;
                 default:
-                    System.out.println("\tInvalid choice.");
+                    System.out.println(Main.RED + "\tInvalid choice. Choose l to Login, r to Register, x for going back to the System Menu." + Main.RESET);
+                    studentMenu();
                     break;
             }  
     }
@@ -55,7 +56,7 @@ public class StudentSystem {
         while(!registered){
             System.out.print("\tEmail: ");
             Scanner studentEmailInput = new Scanner(System.in);
-            String studentEmail = studentEmailInput.nextLine();
+            String studentEmail = studentEmailInput.nextLine().toLowerCase();
 
             System.out.print("\tPassword: ");
             Scanner studentPasswordInput = new Scanner(System.in);
@@ -71,7 +72,9 @@ public class StudentSystem {
                 System.out.println(Main.YELLOW + "\temail and password formats acceptable" + Main.RESET);
                 
                 String firstName = studentEmail.split("[. @]+", 3)[0];
+                firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
                 String lastName = studentEmail.split("[. @]+", 3)[1];
+                lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
                 String name =  firstName + " " + lastName;
                 
 
@@ -131,7 +134,7 @@ public class StudentSystem {
             }
             in.close();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         }
     }
 
@@ -158,14 +161,12 @@ public class StudentSystem {
 
         boolean loggedIn = false;
 
-//        System.out.println(Main.GREEN + "\tStudent Sign In" + Main.RESET );
-        System.out.println( "\tStudent Sign In" );
-
+       System.out.println(Main.GREEN + "\tStudent Sign In" + Main.RESET );
 
         while(!loggedIn) {
             Scanner scanner = new Scanner(System.in);
             System.out.print("\tEmail: ");
-            String studentEmail = scanner.nextLine();
+            String studentEmail = scanner.nextLine().toLowerCase();;
             System.out.print("\tPassword: ");
             String studentPassword = scanner.nextLine();
             if (studentEmail.matches(Utils.EMAIL_REGEX) && studentPassword.matches(Utils.PASSWORD_REGEX)) {

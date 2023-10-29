@@ -8,10 +8,14 @@ public class StudentCourseSystem {
     public void studentCourseMenu(Students students) throws IOException{
         StudentSystem studentSystem = new StudentSystem();
         String choice = "";
+        
+        
         while(!choice.equals("x")) {
+
             System.out.print(Main.BLUE + "\t\tStudent Course Menu (c/e/r/s/x):" + Main.RESET);
             Scanner scanner = new Scanner(System.in);
             choice = scanner.nextLine();
+
             switch (choice) {
                 case "c":
                     System.out.println(Main.YELLOW + "\t\tUpdating Password" + Main.RESET);
@@ -53,7 +57,6 @@ public class StudentCourseSystem {
                     studentSystem.saveToFile();
                     break;
                 case "s":
-//                    if (students.getSubjectList().isEmpty()) System.out.println(Main.YELLOW + "\t\tShowing 0 subjects" + Main.RESET);
                     String abc = String.format("\t\tShowing %s subjects",students.getSubjectList().size());
                     System.out.println(Main.YELLOW + abc + Main.RESET);
 
@@ -67,6 +70,12 @@ public class StudentCourseSystem {
                     Main.main(null);
                     break;
                 default:
+                    System.out.println(Main.RED + "\t\tInvalid Choice.\n" + //
+                            "\t\tChoose c for Changing Password,\n" + //
+                            "\t\te for Enrollment,\n" + //
+                            "\t\tr for removing an enrolled subject by ID, s for showing all the subjects,\n" + //
+                            "\t\tx for going back to Student System" + Main.RESET);
+                    studentCourseMenu(students);
                     break;
             }
         }
@@ -103,13 +112,13 @@ public class StudentCourseSystem {
         else return "HD";
     }
 
-    public static int averageMark(Students students) {
-        int avgMark = 0;
+    public static double averageMark(Students students) {
+        double avgMark = 0;
         for(Subject subject: students.getSubjectList()){
             avgMark = avgMark + subject.getMark();
                         
         }
-        int numberOfSub = students.getSubjectList().size();
+        double numberOfSub = students.getSubjectList().size();
         if (numberOfSub >= 1){
                     return avgMark / numberOfSub;
 
